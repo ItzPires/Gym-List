@@ -1,0 +1,13 @@
+.Images {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 10px;
+    max-height: 10%;
+}
+
+.Images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
