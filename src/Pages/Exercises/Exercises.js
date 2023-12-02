@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import SelectBox from '../../Components/SelectBox/SelectBox';
 import SearchBox from '../../Components/SearchBox/SearchBox';
+import Exercise from '../../Components/Exercise/Exercise';
 import './Exercises.css';
 
 function Exercises() {
@@ -127,10 +128,7 @@ function Exercises() {
             </div>
             <div className='Images'>
                 {data.slice(0, visibleImages).map((image, index) => (
-                    <div key={index} className="image-container">
-                        <img src={image.gifUrl} alt={`Imagem ${index}`} />
-                        <h1 className="image-name">{image.name}</h1>
-                    </div>
+                    <Exercise index={index} image={image} />
                 ))}
 
                 {isLoading && <p>Carregando...</p>}
