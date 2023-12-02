@@ -1,8 +1,10 @@
 .Images {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-column-gap: 10px;
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
     max-height: 10%;
+    margin: 50px;
 }
 
 .Row {
