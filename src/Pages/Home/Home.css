@@ -44,6 +44,11 @@
     position: relative;
 }
 
+.space {
+    padding: 10px;
+    border-bottom: 2px solid black;
+}
+
 .footer {
     position: fixed;
     bottom: 0;

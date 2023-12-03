@@ -16,6 +16,7 @@ function Home() {
           <img className="line3" src={process.env.PUBLIC_URL + '/images/svg/line3.svg'} alt="Line3" />
         </div>
       </div>
+      <div className="space"></div>
       <div className="slide">
         <p>sdsd</p>
         <p>sdsd</p>
