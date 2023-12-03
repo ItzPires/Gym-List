@@ -48,13 +48,3 @@
     padding: 10px;
     border-bottom: 2px solid black;
 }
-
-.footer {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #C3FF5B;
-    border-top: 2px solid black;
-    text-align: center;
-}

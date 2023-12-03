@@ -1,5 +1,6 @@
 import React from 'react';
 import ItemSlide from '../../Components/ItemSlide/ItemSlide';
+import Footer from '../../Components/Footer/Footer';
 import './Home.css';
 
 function Home() {
@@ -23,9 +24,7 @@ function Home() {
         <ItemSlide />
         <ItemSlide />
       </div>
-      <footer className="footer">
-        <p>euu</p>
-      </footer>
+      <Footer />
     </div>
   );
 }
