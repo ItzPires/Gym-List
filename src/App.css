@@ -1,3 +1,18 @@
 body {
     margin: 0;
 }
+
+@font-face {
+    font-family: 'Granite';
+    src: url('./fonts/Granite-Bgvl.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Obised';
+    src: url('./fonts/Obised-d9aqK.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Shred';
+    src: url('./fonts/Shred-X353K.ttf') format('truetype');
+}
