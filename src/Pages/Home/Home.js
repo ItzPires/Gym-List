@@ -1,5 +1,5 @@
-// Home.js
 import React from 'react';
+import ItemSlide from '../../Components/ItemSlide/ItemSlide';
 import './Home.css';
 
 function Home() {
@@ -18,10 +18,10 @@ function Home() {
       </div>
       <div className="space"></div>
       <div className="slide">
-        <p>sdsd</p>
-        <p>sdsd</p>
-        <p>sdsd</p>
-        <p>sdsd</p>
+        <ItemSlide />
+        <ItemSlide />
+        <ItemSlide />
+        <ItemSlide />
       </div>
       <footer className="footer">
         <p>euu</p>
