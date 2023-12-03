@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SelectBox from '../../Components/SelectBox/SelectBox';
 import SearchBox from '../../Components/SearchBox/SearchBox';
 import Exercise from '../../Components/Exercise/Exercise';
+import ItemSlide from '../../Components/ItemSlide/ItemSlide';
 import './Exercises.css';
 
 function Exercises() {
@@ -117,7 +118,7 @@ function Exercises() {
         <>
             <div className='Row'>
                 <div className='SearchBox'>
-                    <SearchBox/>
+                    <SearchBox />
                 </div>
                 <div className='SelectBox1'>
                     <SelectBox options={dataEquipments} onSelectChange={handleSelectChange} />
@@ -131,7 +132,9 @@ function Exercises() {
                     <Exercise index={index} image={image} />
                 ))}
 
-                {isLoading && <p>Carregando...</p>}
+                {isLoading ? (
+                    Array.from({ length: 20 }, (_, index) => <ItemSlide key={index} />)
+                ) : null}
             </div>
         </>
     );
