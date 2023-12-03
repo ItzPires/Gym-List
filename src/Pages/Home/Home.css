@@ -6,6 +6,7 @@
 .dashboard {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 25px;
 }
 
 .titulo-grande {
@@ -47,4 +48,11 @@
 .space {
     padding: 10px;
     border-bottom: 2px solid black;
+}
+
+.img-dashboard {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    object-fit: cover;
 }

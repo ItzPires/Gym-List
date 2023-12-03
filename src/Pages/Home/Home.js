@@ -16,6 +16,9 @@ function Home() {
           <img className="circle" src={process.env.PUBLIC_URL + '/images/svg/circle.svg'} alt="Circle" />
           <img className="line3" src={process.env.PUBLIC_URL + '/images/svg/line3.svg'} alt="Line3" />
         </div>
+        <div>
+          <img className="img-dashboard" src={process.env.PUBLIC_URL + '/images/home.jpg'} />
+        </div>
       </div>
       <div className="space"></div>
       <div className="slide">
