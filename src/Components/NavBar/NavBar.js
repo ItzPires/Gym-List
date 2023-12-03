@@ -5,12 +5,12 @@ import './NavBar.css';
 function Navbar() {
     return (
         <nav className="navbar">
-            <div className="logo">
+            <Link to="/" className="logo">
                 <div className="logo-box">
                     <span className="first-letter">G</span>
                     <span className="rest-of-word">ym</span>
                 </div>
-            </div>
+            </Link>
             <div className="links">
                 <Link to="/">Home</Link>
                 <Link to="/exercises">Exercises</Link>

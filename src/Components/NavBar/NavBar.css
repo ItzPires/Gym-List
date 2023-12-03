@@ -5,19 +5,22 @@
     background-color: black;
     padding: 10px;
     color: white;
-    border-bottom: 2px solid #DBFF9E;
+    border-bottom: 2px solid #C3FF5B;
+}
+
+.logo {
+    text-decoration: none;
 }
 
 .logo .logo-box {
-    border: 2px solid #DBFF9E;
+    border: 2px solid #C3FF5B;
     color: black;
     padding: 5px 10px;
 }
 
-
 .logo .logo-box .first-letter {
     font-size: 1.5em;
-    color: #DBFF9E;
+    color: #C3FF5B;
 }
 
 .logo .logo-box .rest-of-word {
