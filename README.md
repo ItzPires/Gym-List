@@ -1,2 +1,2 @@
-# Art-Gallery
-Galeria de Arte - Desenvolvimento Web 2023/2024
+# Gym-List
+Lista para Ginásio - Desenvolvimento Web 2023/2024
