@@ -3,4 +3,24 @@
     grid-template-columns: repeat(2, 1fr);
     justify-content: center;
     align-items: center;
+    height: calc(100vh - 180px);
+    margin: 50px;
+}
+
+.image-individual {
+    text-align: center;
+}
+
+.text {
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .context {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .text {
+        text-align: left;
+    }
 }
