@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './SearchBox.css';
 
 function SearchBox({ onSearch }) {
     const [searchText, setSearchText] = useState('');
@@ -9,14 +10,13 @@ function SearchBox({ onSearch }) {
     };
 
     return (
-        <div className='SearchBox'>
-            <input
-                type="text"
-                placeholder="Search..."
-                value={searchText}
-                onChange={handleSearchChange}
-            />
-        </div>
+        <input
+            className="SearchBar"
+            type="text"
+            placeholder="Search..."
+            value={searchText}
+            onChange={handleSearchChange}
+        />
     );
 }
 

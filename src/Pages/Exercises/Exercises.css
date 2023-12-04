@@ -10,7 +10,13 @@
 .Row {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 25px;
+    margin: 0 50px 50px 50px;
+}
+
+.SearchBox {
+    grid-column: 3;
+    padding-top: 20px;
 }
 
 .SelectBox1 {
@@ -19,8 +25,4 @@
 
 .SelectBox2 {
     grid-column: 5;
-}
-
-.SearchBox {
-    grid-column: 3;
 }

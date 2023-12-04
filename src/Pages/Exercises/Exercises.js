@@ -17,8 +17,8 @@ function Exercises() {
         const fetchData = async (url) => {
             try {
                 setIsLoading(true);
-                const response = await fetch(url);
-                const dataJson = await response.json();
+                let response = await fetch(url);
+                let dataJson = await response.json();
                 return dataJson;
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
@@ -29,17 +29,23 @@ function Exercises() {
 
         const fetchDataExercises = async () => {
             setIsLoading(true);
-            const dataJson = await fetchData('./serverJson/all.json');
-            setData(dataJson);
-            setDataOriginal(dataJson);
+            let dataJson = await fetchData('./serverJson/all.json');
+
+            let dataUpperCase = dataJson.map((item) => ({
+                ...item,
+                name: item.name.replace(/(?:^|\s)\S/g, char => char.toUpperCase())
+            }));
+            
+            setData(dataUpperCase);
+            setDataOriginal(dataUpperCase);
 
             setIsLoading(false);
         };
 
         const fetchDataEquipments = async () => {
             setIsLoading(true);
-            const dataJson = await fetchData('./serverJson/equipments.json');
-            const convertedOptions = dataJson.map((item) => ({
+            let dataJson = await fetchData('./serverJson/equipments.json');
+            let convertedOptions = dataJson.map((item) => ({
                 value: item.toLowerCase(),
                 label: item.charAt(0).toUpperCase() + item.slice(1),
                 type: "equipments"
@@ -52,8 +58,8 @@ function Exercises() {
 
         const fetchDataBodyPart = async () => {
             setIsLoading(true);
-            const dataJson = await fetchData('./serverJson/bodyPart.json');
-            const convertedOptions = dataJson.map((item) => ({
+            let dataJson = await fetchData('./serverJson/bodyPart.json');
+            let convertedOptions = dataJson.map((item) => ({
                 value: item.toLowerCase(),
                 label: item.charAt(0).toUpperCase() + item.slice(1),
                 type: "bodyPart"
@@ -114,11 +120,23 @@ function Exercises() {
         }
     };
 
+    const filterData = (searchText) => {
+        const filteredData = dataOriginal.filter((item) => {
+          const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
+          const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
+          const matchBodyPart = item.bodyPart.toLowerCase().includes(searchText.toLowerCase());
+      
+          return matchName || matchEquipment || matchBodyPart;
+        });
+
+        setData(filteredData);
+      };
+
     return (
         <>
             <div className='Row'>
                 <div className='SearchBox'>
-                    <SearchBox />
+                    <SearchBox onSearch={filterData}/>
                 </div>
                 <div className='SelectBox1'>
                     <SelectBox options={dataEquipments} onSelectChange={handleSelectChange} />
