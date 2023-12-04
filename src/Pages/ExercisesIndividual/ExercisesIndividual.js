@@ -46,9 +46,9 @@ function ExercisesIndividual() {
     }, []);
 
     return (
-        <div className='context'>
+        <>
             {exercise ? (
-                <>
+                <div className='context'>
                     <div className='image-individual'>
                         <img src={process.env.PUBLIC_URL + '/images/gif.gif'} alt={'Imagem'} />
                     </div>
@@ -71,11 +71,11 @@ function ExercisesIndividual() {
                             <p>Nenhuma instrução disponível</p>
                         )}
                     </div>
-                </>
+                </div>
             ) : (
-                <p>Exercício não encontrado</p>
+                <p className="image-individual">Exercício não encontrado</p>
             )}
-        </div>
+        </>
     );
 }
 
