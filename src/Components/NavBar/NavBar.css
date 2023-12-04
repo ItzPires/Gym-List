@@ -11,6 +11,7 @@
 .logo {
     text-decoration: none;
     font-family: 'Obised', sans-serif;
+    margin-left: 25px;
 }
 
 .logo .logo-box {
@@ -36,5 +37,11 @@
 .links a {
     color: white;
     text-decoration: none;
-    margin-left: 20px;
+    margin-right: 20px;
+}
+
+@media (max-width: 768px) {
+    .logo .logo-box .rest-of-word {
+        display: none;
+    }
 }
