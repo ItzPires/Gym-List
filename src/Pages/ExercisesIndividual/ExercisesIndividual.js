@@ -50,7 +50,7 @@ function ExercisesIndividual() {
             {exercise ? (
                 <div className='context'>
                     <div className='image-individual'>
-                        <img src={process.env.PUBLIC_URL + '/images/gif.gif'} alt={'Imagem'} />
+                        <img src={process.env.PUBLIC_URL + '/images/gif.gif'} alt={'Imagem'} className='gif-individual'/>
                     </div>
                     <div className='text'>
                         <h1>{exercise.name}</h1>
