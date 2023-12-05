@@ -1,8 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './NavBar.css';
 
 function Navbar() {
+    const location = useLocation();
+
     return (
         <nav className="navbar">
             <Link to="/" className="logo">
@@ -12,8 +14,8 @@ function Navbar() {
                 </div>
             </Link>
             <div className="links">
-                <Link to="/">Home</Link>
-                <Link to="/exercises">Exercises</Link>
+                <Link to="/" className={location.pathname === '/' ? 'active' : ''}>Home</Link>
+                <Link to="/exercises" className={location.pathname === '/exercises' ? 'active' : ''}>Exercises</Link>
             </div>
         </nav>
     );

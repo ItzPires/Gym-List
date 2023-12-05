@@ -40,6 +40,10 @@
     margin-right: 20px;
 }
 
+.links a.active {
+    color: #C3FF5B;
+}
+
 @media (max-width: 768px) {
     .logo .logo-box .rest-of-word {
         display: none;
