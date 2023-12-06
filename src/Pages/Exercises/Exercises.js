@@ -35,7 +35,7 @@ function Exercises() {
                 ...item,
                 name: item.name.replace(/(?:^|\s)\S/g, char => char.toUpperCase())
             }));
-            
+
             setData(dataUpperCase);
             setDataOriginal(dataUpperCase);
 
@@ -122,21 +122,22 @@ function Exercises() {
 
     const filterData = (searchText) => {
         const filteredData = dataOriginal.filter((item) => {
-          const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
-          const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
-          const matchBodyPart = item.bodyPart.toLowerCase().includes(searchText.toLowerCase());
-      
-          return matchName || matchEquipment || matchBodyPart;
+            const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
+            const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
+            const matchBodyPart = item.bodyPart.toLowerCase().includes(searchText.toLowerCase());
+
+            return matchName || matchEquipment || matchBodyPart;
         });
 
         setData(filteredData);
-      };
+    };
 
     return (
         <>
             <div className='Row'>
+                <span className='Title'>Exercises</span>
                 <div className='SearchBox'>
-                    <SearchBox onSearch={filterData}/>
+                    <SearchBox onSearch={filterData} />
                 </div>
                 <div className='SelectBox1'>
                     <SelectBox options={dataEquipments} onSelectChange={handleSelectChange} />

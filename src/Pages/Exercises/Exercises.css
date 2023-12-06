@@ -26,3 +26,11 @@
 .SelectBox2 {
     grid-column: 5;
 }
+
+.Title {
+    margin: auto;
+    margin-left: 0;
+    grid-column: span 2;
+    font-family: 'Larken', sans-serif;
+    font-size: 42px;
+}
