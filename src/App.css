@@ -16,3 +16,8 @@ body {
     font-family: 'Shred';
     src: url('./fonts/Shred-X353K.ttf') format('truetype');
 }
+
+@font-face {
+    font-family: 'Larken';
+    src: url('./fonts/LarkenDEMO-Black.woff') format('woff');
+}

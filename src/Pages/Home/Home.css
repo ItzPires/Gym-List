@@ -12,10 +12,12 @@
 .titulo-grande {
     font-size: 100px;
     margin: 0;
+    font-family: 'Larken', sans-serif;
 }
 
 .subtitulo-pequeno {
     font-size: 22px;
+    font-family: 'Arial Narrow', sans-serif;
 }
 
 .circle,
@@ -26,9 +28,10 @@
 }
 
 .circle {
+    width: 270px;
     rotate: 30deg;
     top: 70px;
-    left: 270px;
+    left: 290px;
 }
 
 .line3 {
@@ -55,6 +58,7 @@
     align-items: center;
     padding: 15px 50px;
     margin-top: 50px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .hastag {
