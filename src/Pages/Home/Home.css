@@ -53,20 +53,24 @@
     color: white;
     display: inline-flex;
     align-items: center;
-    padding: 5px 10px;
-    float: right;
+    padding: 15px 50px;
+    margin-top: 50px;
 }
 
 .hastag {
-    width: 25px;
+    width: 40px;
     height: auto;
     margin-right: 5px;
 }
 
-.slide {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-column-gap: 25px;
-    margin-top: 50px;
-    max-width: auto;
+span {
+    font-size: 25px;
+}
+
+@media (max-width: 768px) {
+    .dashboard {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-row-gap: 50px;
+    }
 }
