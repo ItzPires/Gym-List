@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TextField from '@mui/material/TextField';
 import './SearchBox.css';
 
 function SearchBox({ onSearch }) {
@@ -10,14 +11,13 @@ function SearchBox({ onSearch }) {
     };
 
     return (
-        <input
-            className="SearchBar"
-            type="text"
-            placeholder="Search..."
-            value={searchText}
-            onChange={handleSearchChange}
+        <TextField
+          label="Search Box"
+          variant="outlined"
+          value={searchText}
+          onChange={handleSearchChange}
         />
-    );
+      );
 }
 
 export default SearchBox;

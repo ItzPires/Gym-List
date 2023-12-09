@@ -1,5 +1,6 @@
 import React from 'react';
-import Select from 'react-select';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 
 function SelectBox(props) {
   const handleSelectChange = (selectedOption) => {
@@ -9,22 +10,14 @@ function SelectBox(props) {
   };
 
   return (
-    <div>
-      <h1>{props.label}</h1>
-      <Select
-        className="basic-single"
-        classNamePrefix="select"
-        defaultValue={{ value: 'all', label: 'All', isFixed: true }}
-        isDisabled={false}
-        isLoading={false}
-        isClearable={false}
-        isRtl={false}
-        isSearchable={false}
-        name="color"
-        options={props.options}
-        onChange={handleSelectChange}
-      />
-    </div>
+    <Autocomplete
+    options={props.options}
+      getOptionLabel={(option) => option.label}
+      onChange={(event, newValue) => {
+        handleSelectChange(newValue);
+      }}
+      renderInput={(params) => <TextField {...params} label={props.label} />}
+    />
   );
 }
 

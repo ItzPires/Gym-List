@@ -106,7 +106,7 @@ function Exercises() {
     };
 
     const handleSelectChange = (selectedOption) => {
-        if (selectedOption.value === "all") {
+        if (selectedOption === null) {
             setData(dataOriginal);
         } else {
             if (selectedOption.type === "equipments") {
@@ -140,10 +140,10 @@ function Exercises() {
                     <SearchBox onSearch={filterData} />
                 </div>
                 <div className='SelectBox1'>
-                    <SelectBox options={dataEquipments} onSelectChange={handleSelectChange} />
+                    <SelectBox label= "Equipments" options={dataEquipments} onSelectChange={handleSelectChange} />
                 </div>
                 <div className='SelectBox2'>
-                    <SelectBox options={dataBodyPart} onSelectChange={handleSelectChange} />
+                    <SelectBox label= "Body Parts" options={dataBodyPart} onSelectChange={handleSelectChange} />
                 </div>
             </div>
             <div className='Images'>
