@@ -25,7 +25,6 @@ function Home() {
           <span>View Exercises</span>
         </div>
       </Link>
-      <Footer />
     </div>
   );
 }
