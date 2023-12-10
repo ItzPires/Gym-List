@@ -13,6 +13,10 @@ function Exercises() {
     const [visibleImages, setVisibleImages] = useState(40);
     const [isLoading, setIsLoading] = useState(false);
 
+    const [searchText, setSearchText] = useState("");
+    const [equipmentsText, setEquipmentsText] = useState({ value: "" });
+    const [bodyPartText, setBodyPartText] = useState({ value: "" });
+
     useEffect(() => {
         const fetchData = async (url) => {
             try {
@@ -97,6 +101,10 @@ function Exercises() {
         };
     }, [isLoading]);
 
+    useEffect(() => {
+        filterData();
+    }, [searchText, equipmentsText, bodyPartText]);
+
     const debounce = (func, delay) => {
         let timeoutId;
         return function () {
@@ -106,22 +114,32 @@ function Exercises() {
     };
 
     const handleSelectChange = (selectedOption) => {
-        if (selectedOption === null) {
-            setData(dataOriginal);
-        } else {
-            if (selectedOption.type === "equipments") {
-                const filteredData = dataOriginal.filter(item => item.equipment.toLowerCase() === selectedOption.value);
-                setData(filteredData);
-            }
-            else {
-                const filteredData = dataOriginal.filter(item => item.bodyPart.toLowerCase() === selectedOption.value);
-                setData(filteredData);
+        debugger;
+        if (selectedOption !== null) {
+            if (selectedOption.clean !== undefined) {
+                if(selectedOption.clean === "Equipments") {
+                    setEquipmentsText({ value: "" });
+                }
+                else {
+                    setBodyPartText({ value: "" });
+                }
+            } else {
+                if (selectedOption.type === "equipments") {
+                    setEquipmentsText(selectedOption);
+                }
+                else {
+                    setBodyPartText(selectedOption);
+                }
             }
         }
     };
 
-    const filterData = (searchText) => {
-        const filteredData = dataOriginal.filter((item) => {
+    const handleSearchBoxChange = (searchText) => {
+        setSearchText(searchText);
+    };
+
+    const filterData = () => {
+        let filteredDataSearchBox = dataOriginal.filter((item) => {
             const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
             const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
             const matchBodyPart = item.bodyPart.toLowerCase().includes(searchText.toLowerCase());
@@ -129,7 +147,23 @@ function Exercises() {
             return matchName || matchEquipment || matchBodyPart;
         });
 
-        setData(filteredData);
+        let filteredDataSearchBoxAndEquipments;
+        if (equipmentsText.value === "") {
+            filteredDataSearchBoxAndEquipments = filteredDataSearchBox;
+
+        } else {
+            filteredDataSearchBoxAndEquipments = filteredDataSearchBox.filter(item => item.equipment.toLowerCase() === equipmentsText.value);
+        }
+
+        let filteredDataSearchBoxAndEquipmentsAndBodyPart;
+        if (bodyPartText.value === "") {
+            filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments;
+
+        } else {
+            filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments.filter(item => item.bodyPart.toLowerCase() === bodyPartText.value);
+        }
+
+        setData(filteredDataSearchBoxAndEquipmentsAndBodyPart);
     };
 
     return (
@@ -137,13 +171,13 @@ function Exercises() {
             <div className='Row'>
                 <span className='Title'>Exercises</span>
                 <div className='SearchBox'>
-                    <SearchBox onSearch={filterData} />
+                    <SearchBox onSearch={handleSearchBoxChange} />
                 </div>
                 <div className='SelectBox1'>
-                    <SelectBox label= "Equipments" options={dataEquipments} onSelectChange={handleSelectChange} />
+                    <SelectBox label="Equipments" options={dataEquipments} onSelectChange={handleSelectChange} />
                 </div>
                 <div className='SelectBox2'>
-                    <SelectBox label= "Body Parts" options={dataBodyPart} onSelectChange={handleSelectChange} />
+                    <SelectBox label="Body Parts" options={dataBodyPart} onSelectChange={handleSelectChange} />
                 </div>
             </div>
             <div className='Images'>
