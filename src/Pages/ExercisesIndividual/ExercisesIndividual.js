@@ -53,7 +53,7 @@ function ExercisesIndividual() {
                         <img src={process.env.PUBLIC_URL + '/images/gif.gif'} alt={'Imagem'} className='gif-individual'/>
                     </div>
                     <div className='text'>
-                        <h1>{exercise.name}</h1>
+                        <span className="exercise-name">{exercise.name}</span>
                         <p><strong>Body Part:</strong> {exercise.bodyPart}</p>
                         <p><strong>Equipment:</strong> {exercise.equipment}</p>
                         <p><strong>Target:</strong> {exercise.target}</p>

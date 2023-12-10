@@ -20,6 +20,17 @@
     text-align: left;
 }
 
+.exercise-name {
+    font-size: 4vw;
+    font-family: 'Obised', sans-serif;
+    display: block;
+    text-decoration: none;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media (max-width: 768px) {
     .context {
         grid-template-columns: repeat(1, 1fr);
