@@ -54,7 +54,6 @@ function Exercises() {
                 label: item.charAt(0).toUpperCase() + item.slice(1),
                 type: "equipments"
             }));
-            convertedOptions.unshift({ value: 'all', label: 'All', isFixed: true });
 
             setDataEquipments(convertedOptions);
             setIsLoading(false);
@@ -68,7 +67,6 @@ function Exercises() {
                 label: item.charAt(0).toUpperCase() + item.slice(1),
                 type: "bodyPart"
             }));
-            convertedOptions.unshift({ value: 'all', label: 'All', isFixed: true });
 
             setDataBodyPart(convertedOptions);
             setIsLoading(false);
