@@ -14,6 +14,7 @@ function SearchBox({ onSearch }) {
         <TextField
           label="Search Box"
           variant="outlined"
+          className="SearchBar"
           value={searchText}
           onChange={handleSearchChange}
         />
