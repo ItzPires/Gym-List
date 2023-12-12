@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import './SearchBox.css';
 
-function SearchBox({ onSearch }) {
-    const [searchText, setSearchText] = useState('');
+function SearchBox({ onSearch, searchTextInit }) {
+    const [searchText, setSearchText] = useState(searchTextInit || '');
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);

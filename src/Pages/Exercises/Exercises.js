@@ -3,9 +3,14 @@ import SelectBox from '../../Components/SelectBox/SelectBox';
 import SearchBox from '../../Components/SearchBox/SearchBox';
 import Exercise from '../../Components/Exercise/Exercise';
 import ItemSlide from '../../Components/ItemSlide/ItemSlide';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './Exercises.css';
 
 function Exercises() {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const queryParams = new URLSearchParams(location.search);
+
     const [data, setData] = useState([]);
     const [dataOriginal, setDataOriginal] = useState([]);
     const [dataEquipments, setDataEquipments] = useState([]);
@@ -13,9 +18,20 @@ function Exercises() {
     const [visibleImages, setVisibleImages] = useState(40);
     const [isLoading, setIsLoading] = useState(false);
 
-    const [searchText, setSearchText] = useState("");
-    const [equipmentsText, setEquipmentsText] = useState({ value: "" });
-    const [bodyPartText, setBodyPartText] = useState({ value: "" });
+    const [searchText, setSearchText] = useState(queryParams.get('search') || '');
+
+    const capitalizeString = (str) => {
+        return str.replace(/(?:^|\s)\S/g, char => char.toUpperCase());
+    };
+
+    const [equipmentsText, setEquipmentsText] = useState({
+        value: queryParams.get('equipment') || '',
+        label: queryParams.get('equipment') ? capitalizeString(queryParams.get('equipment')) : ''
+    });
+    const [bodyPartText, setBodyPartText] = useState({
+        value: queryParams.get('bodyPart') || '',
+        label: queryParams.get('bodyPart') ? capitalizeString(queryParams.get('bodyPart')) : ''
+    });
 
     useEffect(() => {
         const fetchData = async (url) => {
@@ -77,13 +93,16 @@ function Exercises() {
         fetchDataBodyPart();
     }, []);
 
+    useEffect(() => {
+        filterData();
+    }, [dataOriginal]);
+
     const handleScroll = () => {
         const scrollPosition = window.innerHeight + document.documentElement.scrollTop;
         const totalHeight = document.documentElement.offsetHeight;
         const nearBottom = scrollPosition + 200 >= totalHeight;
 
         if (nearBottom && !isLoading) {
-            console.log('Carregar mais imagens...');
             setIsLoading(true);
             setVisibleImages(prevVisibleImages => prevVisibleImages + 40);
             setIsLoading(false);
@@ -101,6 +120,9 @@ function Exercises() {
 
     useEffect(() => {
         filterData();
+
+        navigate(`/exercises?search=${encodeURIComponent(searchText)}&equipment=${encodeURIComponent(equipmentsText.value)}&bodyPart=${encodeURIComponent(bodyPartText.value)}`);
+
     }, [searchText, equipmentsText, bodyPartText]);
 
     const debounce = (func, delay) => {
@@ -112,14 +134,13 @@ function Exercises() {
     };
 
     const handleSelectChange = (selectedOption) => {
-        debugger;
         if (selectedOption !== null) {
             if (selectedOption.clean !== undefined) {
-                if(selectedOption.clean === "Equipments") {
-                    setEquipmentsText({ value: "" });
+                if (selectedOption.clean === "Equipments") {
+                    setEquipmentsText({ value: "", label: "" });
                 }
                 else {
-                    setBodyPartText({ value: "" });
+                    setBodyPartText({ value: "", label: "" });
                 }
             } else {
                 if (selectedOption.type === "equipments") {
@@ -169,13 +190,13 @@ function Exercises() {
             <div className='Row'>
                 <span className='Title'>Exercises</span>
                 <div className='SearchBox'>
-                    <SearchBox onSearch={handleSearchBoxChange} />
+                    <SearchBox onSearch={handleSearchBoxChange} searchTextInit={searchText} />
                 </div>
                 <div className='SelectBox1'>
-                    <SelectBox label="Equipments" options={dataEquipments} onSelectChange={handleSelectChange} />
+                    <SelectBox label="Equipments" options={dataEquipments} onSelectChange={handleSelectChange} initOption={equipmentsText} />
                 </div>
                 <div className='SelectBox2'>
-                    <SelectBox label="Body Parts" options={dataBodyPart} onSelectChange={handleSelectChange} />
+                    <SelectBox label="Body Parts" options={dataBodyPart} onSelectChange={handleSelectChange} initOption={bodyPartText} />
                 </div>
             </div>
             <div className='Images'>

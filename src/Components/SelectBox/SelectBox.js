@@ -16,6 +16,7 @@ function SelectBox(props) {
     <Autocomplete
       options={props.options}
       getOptionLabel={(option) => option.label}
+      value={props.initOption}
       onChange={(event, newValue) => {
         handleSelectChange(newValue);
       }}

@@ -11,8 +11,8 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/exercises" element={<Exercises />} />
           <Route path="/exercises/:id" element={<ExercisesIndividual />} />
+          <Route path="/exercises/:search?/:equipment?/:bodyPart?" element={<Exercises />} />
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>
