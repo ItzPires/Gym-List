@@ -4,6 +4,7 @@ import SearchBox from '../../Components/SearchBox/SearchBox';
 import Exercise from '../../Components/Exercise/Exercise';
 import ItemSlide from '../../Components/ItemSlide/ItemSlide';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { UseFetch } from '../../Services/APIService';
 import './Exercises.css';
 
 function Exercises() {
@@ -15,6 +16,7 @@ function Exercises() {
     const [dataOriginal, setDataOriginal] = useState([]);
     const [dataEquipments, setDataEquipments] = useState([]);
     const [dataBodyPart, setDataBodyPart] = useState([]);
+    const [dataAlphabeticalOrder, setDataAlphabeticalOrder] = useState([]);
     const [visibleImages, setVisibleImages] = useState(40);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -32,14 +34,17 @@ function Exercises() {
         value: queryParams.get('bodyPart') || '',
         label: queryParams.get('bodyPart') ? capitalizeString(queryParams.get('bodyPart')) : ''
     });
+    const [alphabeticalOrderText, setAlphabeticalOrderText] = useState({
+        value: queryParams.get('order') || 'ascending',
+        label: queryParams.get('order') ? capitalizeString(queryParams.get('order')) : 'Ascending'
+    });
 
     useEffect(() => {
         const fetchData = async (url) => {
             try {
                 setIsLoading(true);
-                let response = await fetch(url);
-                let dataJson = await response.json();
-                return dataJson;
+                const data = await UseFetch(url);
+                return data;
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
             } finally {
@@ -49,7 +54,7 @@ function Exercises() {
 
         const fetchDataExercises = async () => {
             setIsLoading(true);
-            let dataJson = await fetchData('./serverJson/all.json');
+            let dataJson = await fetchData('exercises?limit=100000000');
 
             let dataUpperCase = dataJson.map((item) => ({
                 ...item,
@@ -64,7 +69,7 @@ function Exercises() {
 
         const fetchDataEquipments = async () => {
             setIsLoading(true);
-            let dataJson = await fetchData('./serverJson/equipments.json');
+            let dataJson = await fetchData('exercises/equipmentList');
             let convertedOptions = dataJson.map((item) => ({
                 value: item.toLowerCase(),
                 label: item.charAt(0).toUpperCase() + item.slice(1),
@@ -77,7 +82,7 @@ function Exercises() {
 
         const fetchDataBodyPart = async () => {
             setIsLoading(true);
-            let dataJson = await fetchData('./serverJson/bodyPart.json');
+            let dataJson = await fetchData('exercises/bodyPartList');
             let convertedOptions = dataJson.map((item) => ({
                 value: item.toLowerCase(),
                 label: item.charAt(0).toUpperCase() + item.slice(1),
@@ -88,9 +93,25 @@ function Exercises() {
             setIsLoading(false);
         };
 
+        const fetchDataAlphabeticalOrder = async () => {
+            setIsLoading(true);
+            let optionsArray = ['Ascending', 'Descending'];
+
+            let options = optionsArray.map((item) => ({
+                value: item.toLowerCase(),
+                label: item.charAt(0).toUpperCase() + item.slice(1),
+                type: "alphabeticalOrder"
+            }));
+
+            setDataAlphabeticalOrder(options);
+            setIsLoading(false);
+        }
+
         fetchDataExercises();
         fetchDataEquipments();
         fetchDataBodyPart();
+        fetchDataAlphabeticalOrder();
+
     }, []);
 
     useEffect(() => {
@@ -121,9 +142,9 @@ function Exercises() {
     useEffect(() => {
         filterData();
 
-        navigate(`/exercises?search=${encodeURIComponent(searchText)}&equipment=${encodeURIComponent(equipmentsText.value)}&bodyPart=${encodeURIComponent(bodyPartText.value)}`);
+        navigate(`/exercises?search=${encodeURIComponent(searchText)}&equipment=${encodeURIComponent(equipmentsText.value)}&bodyPart=${encodeURIComponent(bodyPartText.value)}&order=${encodeURIComponent(alphabeticalOrderText.value)}`);
 
-    }, [searchText, equipmentsText, bodyPartText]);
+    }, [searchText, equipmentsText, bodyPartText, alphabeticalOrderText]);
 
     const debounce = (func, delay) => {
         let timeoutId;
@@ -133,21 +154,43 @@ function Exercises() {
         };
     };
 
+    const sortAscendant = (exercises) => {
+        return exercises.slice().sort((a, b) => a.name.localeCompare(b.name));
+    };
+
+    const sortDescending = (exercises) => {
+        return exercises.slice().sort((a, b) => b.name.localeCompare(a.name));
+    };
+
+    const sortExercises = (exercises) => {
+        if (alphabeticalOrderText.value === "ascending") {
+            return sortAscendant(exercises);
+        } else {
+            return sortDescending(exercises);
+        }
+    }
+
     const handleSelectChange = (selectedOption) => {
         if (selectedOption !== null) {
             if (selectedOption.clean !== undefined) {
                 if (selectedOption.clean === "Equipments") {
                     setEquipmentsText({ value: "", label: "" });
                 }
-                else {
+                else if (selectedOption.clean === "Body Parts") {
                     setBodyPartText({ value: "", label: "" });
+                }
+                else if (selectedOption.clean === "Alphabetical Order") {
+                    setAlphabeticalOrderText({ value: "ascending", label: "Ascending" });
                 }
             } else {
                 if (selectedOption.type === "equipments") {
                     setEquipmentsText(selectedOption);
                 }
-                else {
+                else if (selectedOption.type === "bodyPart") {
                     setBodyPartText(selectedOption);
+                }
+                else {
+                    setAlphabeticalOrderText(selectedOption);
                 }
             }
         }
@@ -159,6 +202,7 @@ function Exercises() {
 
     const filterData = () => {
         let filteredDataSearchBox = dataOriginal.filter((item) => {
+            //exercises/name/%7Bname%7D?limit=100000000
             const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
             const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
             const matchBodyPart = item.bodyPart.toLowerCase().includes(searchText.toLowerCase());
@@ -182,7 +226,9 @@ function Exercises() {
             filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments.filter(item => item.bodyPart.toLowerCase() === bodyPartText.value);
         }
 
-        setData(filteredDataSearchBoxAndEquipmentsAndBodyPart);
+        let filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder = sortExercises(filteredDataSearchBoxAndEquipmentsAndBodyPart);
+
+        setData(filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder);
     };
 
     return (
@@ -197,6 +243,9 @@ function Exercises() {
                 </div>
                 <div className='SelectBox2'>
                     <SelectBox label="Body Parts" options={dataBodyPart} onSelectChange={handleSelectChange} initOption={bodyPartText} />
+                </div>
+                <div className='SelectBox3'>
+                    <SelectBox label="Alphabetical Order" options={dataAlphabeticalOrder} onSelectChange={handleSelectChange} initOption={alphabeticalOrderText} />
                 </div>
             </div>
             <div className='Images'>

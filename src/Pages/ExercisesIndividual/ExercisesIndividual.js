@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { UseFetch } from '../../Services/APIService';
 import './ExercisesIndividual.css';
 
 function ExercisesIndividual() {
@@ -8,35 +9,17 @@ function ExercisesIndividual() {
 
     const { id } = useParams();
 
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+        navigate(-1);
+    };
+
     useEffect(() => {
-        const fetchData = async (url) => {
-            try {
-                setIsLoading(true);
-                const response = await fetch(url);
-                const dataJson = await response.json();
-                return dataJson;
-            } catch (error) {
-                console.error('Erro ao carregar dados:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        // temp
-        const findExerciseById = (data, targetId) => {
-            for (const item of data) {
-                if (item.id === targetId) {
-                    return item;
-                }
-            }
-            return null;
-        };
-
         const fetchDataExercise = async () => {
             setIsLoading(true);
-            const dataJson = await fetchData(process.env.PUBLIC_URL + '/serverJson/all.json');
-            const foundExercise = findExerciseById(dataJson, id);
 
+            const foundExercise = await UseFetch('exercises/exercise/' + id);
             setExercise(foundExercise);
 
             setIsLoading(false);
@@ -47,10 +30,13 @@ function ExercisesIndividual() {
 
     return (
         <>
+
+            <span onClick={handleGoBack} className="arrow-back">{'< Back'}</span>
+
             {exercise ? (
                 <div className='context'>
                     <div className='image-individual'>
-                        <img src={process.env.PUBLIC_URL + '/images/gif.gif'} alt={'Imagem'} className='gif-individual'/>
+                        <img src={exercise.gifUrl} alt={'Imagem'} className='gif-individual' />
                     </div>
                     <div className='text'>
                         <span className="exercise-name">{exercise.name}</span>

@@ -31,6 +31,10 @@
     text-overflow: ellipsis;
 }
 
+.arrow-back {
+    
+}
+
 @media (max-width: 768px) {
     .context {
         grid-template-columns: repeat(1, 1fr);
