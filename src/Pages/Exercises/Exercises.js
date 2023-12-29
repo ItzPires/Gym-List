@@ -118,7 +118,6 @@ function Exercises() {
         const nearBottom = scrollPosition + 200 >= totalHeight;
 
         if (nearBottom && !isLoading) {
-            setIsLoading(true);
             setVisibleImages(prevVisibleImages => prevVisibleImages + 40);
         }
     };
@@ -137,6 +136,7 @@ function Exercises() {
     }, [isLoading]);
 
     useEffect(() => {
+        setIsLoading(true);
         filterData();
 
         navigate(`/exercises?search=${encodeURIComponent(searchText)}&equipment=${encodeURIComponent(equipmentsText.value)}&bodyPart=${encodeURIComponent(bodyPartText.value)}&order=${encodeURIComponent(alphabeticalOrderText.value)}`);
@@ -197,9 +197,8 @@ function Exercises() {
         setSearchText(searchText);
     };
 
-    const filterData = () => {
+    const filterData = async () => {
         let filteredDataSearchBox = dataOriginal.filter((item) => {
-            //exercises/name/%7Bname%7D?limit=100000000
             const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
             const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
             const matchBodyPart = item.bodyPart.toLowerCase().includes(searchText.toLowerCase());
@@ -210,18 +209,24 @@ function Exercises() {
         let filteredDataSearchBoxAndEquipments;
         if (equipmentsText.value === "") {
             filteredDataSearchBoxAndEquipments = filteredDataSearchBox;
-
         } else {
-            filteredDataSearchBoxAndEquipments = filteredDataSearchBox.filter(item => item.equipment.toLowerCase() === equipmentsText.value);
+            let url = "exercises/equipment/" + equipmentsText.value + "?limit=100000000"; 
+            const dataFromFetch = await UseFetch(url);
+            filteredDataSearchBoxAndEquipments = filteredDataSearchBox.filter(item =>
+                dataFromFetch.some(fetchItem => fetchItem.id === item.id)
+            );
         }
-
+        
         let filteredDataSearchBoxAndEquipmentsAndBodyPart;
         if (bodyPartText.value === "") {
             filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments;
-
         } else {
-            filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments.filter(item => item.bodyPart.toLowerCase() === bodyPartText.value);
-        }
+            let url = "exercises/bodyPart/" + bodyPartText.value + "?limit=100000000"; 
+            const dataFromFetch = await UseFetch(url);
+            filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments.filter(item =>
+                dataFromFetch.some(fetchItem => fetchItem.id === item.id)
+            );
+        }        
 
         let filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder = sortExercises(filteredDataSearchBoxAndEquipmentsAndBodyPart);
 
