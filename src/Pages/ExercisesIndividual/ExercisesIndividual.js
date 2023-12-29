@@ -30,9 +30,6 @@ function ExercisesIndividual() {
 
     return (
         <>
-
-            <span onClick={handleGoBack} className="arrow-back">{'< Back'}</span>
-
             {exercise ? (
                 <div className='context'>
                     <div className='image-individual'>

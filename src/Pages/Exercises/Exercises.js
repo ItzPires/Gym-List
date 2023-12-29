@@ -18,7 +18,7 @@ function Exercises() {
     const [dataBodyPart, setDataBodyPart] = useState([]);
     const [dataAlphabeticalOrder, setDataAlphabeticalOrder] = useState([]);
     const [visibleImages, setVisibleImages] = useState(40);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const [searchText, setSearchText] = useState(queryParams.get('search') || '');
 
@@ -152,14 +152,17 @@ function Exercises() {
     };
 
     const sortAscendant = (exercises) => {
+        setIsLoading(true);
         return exercises.slice().sort((a, b) => a.name.localeCompare(b.name));
     };
 
     const sortDescending = (exercises) => {
+        setIsLoading(true);
         return exercises.slice().sort((a, b) => b.name.localeCompare(a.name));
     };
 
     const sortExercises = (exercises) => {
+        setIsLoading(true);
         if (alphabeticalOrderText.value === "ascending") {
             return sortAscendant(exercises);
         } else {
@@ -168,6 +171,7 @@ function Exercises() {
     }
 
     const handleSelectChange = (selectedOption) => {
+        setIsLoading(true);
         if (selectedOption !== null) {
             if (selectedOption.clean !== undefined) {
                 if (selectedOption.clean === "Equipments") {
@@ -194,10 +198,12 @@ function Exercises() {
     };
 
     const handleSearchBoxChange = (searchText) => {
+        setIsLoading(true);
         setSearchText(searchText);
     };
 
     const filterData = async () => {
+        setIsLoading(true);
         let filteredDataSearchBox = dataOriginal.filter((item) => {
             const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
             const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
@@ -231,11 +237,6 @@ function Exercises() {
         let filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder = sortExercises(filteredDataSearchBoxAndEquipmentsAndBodyPart);
 
         setData(filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder);
-
-        if(filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder.length === 0){
-            onLoadImage();
-        }
-
     };
 
     return (
