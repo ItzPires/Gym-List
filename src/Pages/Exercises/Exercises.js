@@ -231,6 +231,11 @@ function Exercises() {
         let filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder = sortExercises(filteredDataSearchBoxAndEquipmentsAndBodyPart);
 
         setData(filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder);
+
+        if(filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder.length === 0){
+            onLoadImage();
+        }
+
     };
 
     return (
