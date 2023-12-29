@@ -20,8 +20,12 @@ function ExercisesIndividual() {
             setIsLoading(true);
 
             const foundExercise = await UseFetch('exercises/exercise/' + id);
-            setExercise(foundExercise);
-
+            if(foundExercise) {
+                setExercise(foundExercise);
+            }
+            else {
+                alert('Ocorreu um erro ao carregar o exercício');
+            }
             setIsLoading(false);
         };
 

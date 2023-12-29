@@ -40,19 +40,12 @@ function Exercises() {
     });
 
     useEffect(() => {
-        const fetchData = async (url) => {
-            try {
-                setIsLoading(true);
-                const data = await UseFetch(url);
-                return data;
-            } catch (error) {
-                console.error('Erro ao carregar dados:', error);
-            }
-        };
-
         const fetchDataExercises = async () => {
-            setIsLoading(true);
-            let dataJson = await fetchData('exercises?limit=100000000');
+            let dataJson = await UseFetch('exercises?limit=100000000');
+            if(dataJson === null) {
+                alert('Ocorreu um erro ao carregar os exercícios');
+                return;
+            }
 
             let dataUpperCase = dataJson.map((item) => ({
                 ...item,
@@ -65,8 +58,12 @@ function Exercises() {
         };
 
         const fetchDataEquipments = async () => {
-            setIsLoading(true);
-            let dataJson = await fetchData('exercises/equipmentList');
+            let dataJson = await UseFetch('exercises/equipmentList');
+            if(dataJson === null) {
+                alert('Ocorreu um erro ao carregar os equipamentos');
+                return;
+            }
+
             let convertedOptions = dataJson.map((item) => ({
                 value: item.toLowerCase(),
                 label: item.charAt(0).toUpperCase() + item.slice(1),
@@ -77,8 +74,12 @@ function Exercises() {
         };
 
         const fetchDataBodyPart = async () => {
-            setIsLoading(true);
-            let dataJson = await fetchData('exercises/bodyPartList');
+            let dataJson = await UseFetch('exercises/bodyPartList');
+            if(dataJson === null) {
+                alert('Ocorreu um erro ao carregar as partes do corpo');
+                return;
+            }
+
             let convertedOptions = dataJson.map((item) => ({
                 value: item.toLowerCase(),
                 label: item.charAt(0).toUpperCase() + item.slice(1),
@@ -89,7 +90,6 @@ function Exercises() {
         };
 
         const fetchDataAlphabeticalOrder = async () => {
-            setIsLoading(true);
             let optionsArray = ['Ascending', 'Descending'];
 
             let options = optionsArray.map((item) => ({
@@ -152,17 +152,14 @@ function Exercises() {
     };
 
     const sortAscendant = (exercises) => {
-        setIsLoading(true);
         return exercises.slice().sort((a, b) => a.name.localeCompare(b.name));
     };
 
     const sortDescending = (exercises) => {
-        setIsLoading(true);
         return exercises.slice().sort((a, b) => b.name.localeCompare(a.name));
     };
 
     const sortExercises = (exercises) => {
-        setIsLoading(true);
         if (alphabeticalOrderText.value === "ascending") {
             return sortAscendant(exercises);
         } else {
@@ -171,7 +168,6 @@ function Exercises() {
     }
 
     const handleSelectChange = (selectedOption) => {
-        setIsLoading(true);
         if (selectedOption !== null) {
             if (selectedOption.clean !== undefined) {
                 if (selectedOption.clean === "Equipments") {
@@ -198,12 +194,10 @@ function Exercises() {
     };
 
     const handleSearchBoxChange = (searchText) => {
-        setIsLoading(true);
         setSearchText(searchText);
     };
 
     const filterData = async () => {
-        setIsLoading(true);
         let filteredDataSearchBox = dataOriginal.filter((item) => {
             const matchName = item.name.toLowerCase().includes(searchText.toLowerCase());
             const matchEquipment = item.equipment.toLowerCase().includes(searchText.toLowerCase());
@@ -216,11 +210,17 @@ function Exercises() {
         if (equipmentsText.value === "") {
             filteredDataSearchBoxAndEquipments = filteredDataSearchBox;
         } else {
-            let url = "exercises/equipment/" + equipmentsText.value + "?limit=100000000"; 
+            let url = "exercises/equipment/" + equipmentsText.value + "?limit=100000000";
             const dataFromFetch = await UseFetch(url);
-            filteredDataSearchBoxAndEquipments = filteredDataSearchBox.filter(item =>
-                dataFromFetch.some(fetchItem => fetchItem.id === item.id)
-            );
+            if (dataFromFetch) {
+                filteredDataSearchBoxAndEquipments = filteredDataSearchBox.filter(item =>
+                    dataFromFetch.some(fetchItem => fetchItem.id === item.id)
+                );
+            }
+            else {
+                alert('Ocorreu um Erro');
+                return;
+            }
         }
         
         let filteredDataSearchBoxAndEquipmentsAndBodyPart;
@@ -229,9 +229,15 @@ function Exercises() {
         } else {
             let url = "exercises/bodyPart/" + bodyPartText.value + "?limit=100000000"; 
             const dataFromFetch = await UseFetch(url);
-            filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments.filter(item =>
-                dataFromFetch.some(fetchItem => fetchItem.id === item.id)
-            );
+            if (dataFromFetch) {
+                filteredDataSearchBoxAndEquipmentsAndBodyPart = filteredDataSearchBoxAndEquipments.filter(item =>
+                    dataFromFetch.some(fetchItem => fetchItem.id === item.id)
+                );
+            }
+            else {
+                alert('Ocorreu um Erro');
+                return;
+            }
         }        
 
         let filteredDataSearchBoxAndEquipmentsAndBodyPartAndAlphabeticalOrder = sortExercises(filteredDataSearchBoxAndEquipmentsAndBodyPart);
