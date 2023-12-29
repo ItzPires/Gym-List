@@ -47,8 +47,6 @@ function Exercises() {
                 return data;
             } catch (error) {
                 console.error('Erro ao carregar dados:', error);
-            } finally {
-                setIsLoading(false);
             }
         };
 
@@ -64,7 +62,6 @@ function Exercises() {
             setData(dataUpperCase);
             setDataOriginal(dataUpperCase);
 
-            setIsLoading(false);
         };
 
         const fetchDataEquipments = async () => {
@@ -77,7 +74,6 @@ function Exercises() {
             }));
 
             setDataEquipments(convertedOptions);
-            setIsLoading(false);
         };
 
         const fetchDataBodyPart = async () => {
@@ -90,7 +86,6 @@ function Exercises() {
             }));
 
             setDataBodyPart(convertedOptions);
-            setIsLoading(false);
         };
 
         const fetchDataAlphabeticalOrder = async () => {
@@ -104,7 +99,6 @@ function Exercises() {
             }));
 
             setDataAlphabeticalOrder(options);
-            setIsLoading(false);
         }
 
         fetchDataExercises();
@@ -126,8 +120,11 @@ function Exercises() {
         if (nearBottom && !isLoading) {
             setIsLoading(true);
             setVisibleImages(prevVisibleImages => prevVisibleImages + 40);
-            setIsLoading(false);
         }
+    };
+
+    const onLoadImage = () => {
+        setIsLoading(false);
     };
 
     useEffect(() => {
@@ -249,13 +246,13 @@ function Exercises() {
                 </div>
             </div>
             <div className='Images'>
-                {data.slice(0, visibleImages).map((image, index) => (
-                    <Exercise index={index} image={image} />
-                ))}
-
                 {isLoading ? (
-                    Array.from({ length: 20 }, (_, index) => <ItemSlide key={index} />)
+                    Array.from({ length: 20 }, (_, index) => <ItemSlide key={index} className="loadingImages"/>)
                 ) : null}
+
+                {data.slice(0, visibleImages).map((image, index) => (
+                    <Exercise index={index} image={image} onLoad={onLoadImage} key={index} />
+                ))}
             </div>
         </>
     );

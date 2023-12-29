@@ -1,4 +1,5 @@
 .Images {
+    position: relative;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     grid-column-gap: 25px;
@@ -36,6 +37,11 @@
     grid-column: 1;
     font-family: 'Larken', sans-serif;
     font-size: 42px;
+}
+
+.loadingImages {
+    position: absolute;
+    z-index: 1;
 }
 
 @media (max-width: 768px) {
